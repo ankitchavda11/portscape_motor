@@ -157,6 +157,8 @@ typedef struct
   uint8_t HallState;     /*!< Current HALL state configuration */
   /*--My Code --*/
   uint8_t HallStateCounter;   /* Hall state counter*/
+  uint8_t HallCounterHomePosition;
+  uint8_t HallStateHomePosition;
   /*--My Code Ends--*/
 
   int16_t DeltaAngle;    /*!< Delta angle at the Hall sensor signal edge between

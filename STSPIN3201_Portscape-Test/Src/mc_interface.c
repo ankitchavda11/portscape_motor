@@ -663,6 +663,15 @@ __weak void MCI_Clear_Iqdref( MCI_Handle_t * pHandle )
   pHandle->pFOCVars->Iqdref = STC_GetDefaultIqdref( pHandle->pSTC );
 }
 
+
+void MCI_Home_Osc()
+{
+	OSC_MODE_HOME();
+}
+void MCI_Home_Offset(){
+	Home_Offset();
+}
+
 /**
   * @}
   */

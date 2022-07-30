@@ -64,6 +64,8 @@ static void MX_USART1_UART_Init(void);
 static void MX_NVIC_Init(void);
 /*-- My code --*/
 void OSC_MODE_HOME(void);
+void OSC_MODE_HOME2(void);
+void Home_Offset(void);
 /*-- My code --*/
 /* USER CODE BEGIN PFP */
 
@@ -72,7 +74,7 @@ void OSC_MODE_HOME(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 /*-- My code --*/
-   bool stepA=1,stepB=0,stepC=0,stepCA=0,stepAB=0,stepBC=0,pendingPhase=1, moveMotor =0;
+   bool stepA=1,stepB=0,stepC=0,stepCA=0,stepAB=0,stepBC=0,pendingPhase=1, moveMotor =1;
    uint16_t oldhallstate =0, presenthallstate=0,count =0,oldAngle=0,execute = 0,waitToMoveCounter =0;
    int16_t pulse = 100;
    uint8_t MotorHallState = 0;
@@ -138,7 +140,7 @@ int main(void)
   	  /*--My code--*/
   	  /*--My code ends --*/
       /* USER CODE END WHILE */
-  	  oldAngle =(uint16_t *) HALL_M1.HallState;
+  //	  oldAngle =(uint16_t *) HALL_M1.HallState;
 
  /* 	  	  if( HALL_M1.HallStateCounter != 0 && moveMotor) //Default Position 0
   	  	  {
@@ -248,28 +250,149 @@ int main(void)
   			  moveMotor =1;
   			  waitToMoveCounter=0;
   		  }*/
-	//  if(UI_Params.test == 0){
-		  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t STATE: %u\r\n", UI_Params.test), 100);
-		  HAL_Delay(1000);
-	//  }else{
-	//	  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t STATE: %u\r\n", HALL_M1.HallState), 100);
-	//	  HAL_Delay(1000);
-	 // }
-  		/*  if(UI_Params.OSC_HOME == 1){
-  			OSC_MODE_HOME();
-  			UI_Params.OSC_HOME == 0;
-  		  }*/
+//	  if(UI_Params.test1 == 0){
+//	  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t STATE: %u\r\n", UI_Params.test1), 100);
+//		 HAL_Delay(1000);
+//	 }else{
+	 HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t Home STATE COunter: %u\r\n", HALL_M1.HallCounterHomePosition), 100);
+     HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t HOME POSITION: %u\r\n", HALL_M1.HallStateHomePosition), 100);
+     HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t STATE COunter: %u\r\n", HALL_M1.HallStateCounter), 100);
+          HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t state: %u\r\n", HALL_M1.HallState), 100);
+	 HAL_Delay(1000);
+//	 }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
+void OSC_MODE_HOME2(){
 
+	  if( HALL_M1.HallStateCounter != 0 && moveMotor) //Default Position 0
+  	  {
+
+  		  if(stepA && pendingPhase)
+  		  {
+  //			  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "in phase control\n"), 100);
+  			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,0);
+  			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,pulse);
+  			    __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,0);
+  			  stepA =0 ;
+  			  stepAB=1;
+  			  pendingPhase = 0;
+  			  execute++;
+  		  }
+  		  if(stepAB && pendingPhase)
+  		  {
+  //			  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "in phase control\n"), 100);
+  		  	  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,0);
+  		  	  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,pulse);
+  		  	  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,pulse);
+  		  	   stepAB =0 ;
+  		  	   stepB=1;
+  		  	   pendingPhase = 0;
+  		  	}
+  		  if(stepB && pendingPhase)
+  		  	{
+			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,0);
+			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,pulse);
+			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,0);
+			  stepB = 0;
+			  stepBC =1;
+			  pendingPhase = 0;
+  		  	}
+  		  if(stepBC && pendingPhase)
+  		  	{
+  		  	    __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,0);
+  		  	    __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,pulse);
+  		  	    __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,pulse);
+  		  	    stepBC = 0;
+  		  	    stepC =1;
+  		  	    pendingPhase = 0;
+  		  	 }
+  	      if(stepC && pendingPhase)
+  	      	 {
+				__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,0);
+				__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,0);
+				__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,pulse);
+				stepC = 0;
+				stepCA=1;
+				pendingPhase = 0;
+  	         }
+  	      if(stepCA && pendingPhase)
+  	      	 {
+				 __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,pulse);
+				 __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,0);
+				 __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,pulse);
+				stepC = 0;
+				stepA=1;
+				pendingPhase = 0;
+  	      	  }
+
+  	        pendingPhase = 1;
+
+  	  }
+  	  else
+  	  {
+			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_1,0);
+			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,0);
+			  __HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,0);
+			  moveMotor = 0;
+			  if(count == 0 )
+			  {
+					//   oldhallstate =(uint16_t *) HALL_M1.HallState;
+					   count =1;
+			  }
+				  execute=0;
+				  HAL_Delay(0.1);
+
+  	  }
+
+  	 // presenthallstate = (uint16_t *) HALL_M1.HallState;
+
+	  if( HALL_M1.HallState == 71 && (HALL_M1.HallStateHomePosition != HALL_M1.HallState))
+				  {
+					  if( oldhallstate < HALL_M1.HallState)
+					  {
+						  HALL_M1.HallStateCounter = HALL_M1.HallStateCounter-HALL_M1.HallStateHomePosition+1;
+						 // execute = execute - oldhallstate;
+					  }
+					  else
+					  {
+						  HALL_M1.HallStateCounter = HALL_M1.HallStateCounter-HALL_M1.HallState-1;
+						 // execute = execute - presenthallstate;
+					  }
+
+					 count =0;
+					 execute=0;
+				  }
+	  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\n at pole: %u\r\n", HALL_M1.HallStateCounter), 75);
+
+	  execute = execute%7;
+	 // HAL_Delay(10);
+	  waitToMoveCounter++;
+	  if(moveMotor == 0 && waitToMoveCounter >=50)
+	  {
+		  moveMotor =1;
+		  waitToMoveCounter=0;
+	  }
+}
 
 /*-- My code --*/
 void OSC_MODE_HOME(){
-	  if( HALL_M1.HallStateCounter != 0 && moveMotor) //Default Position 0
-	  	  {
 
+//	while(HALL_M1.HallStateCounter != 0){
+//		 HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t HOMING COunter: %u\r\n", HALL_M1.HallStateCounter), 100);
+//	moveMotor = 1;
+	int diff = HALL_M1.HallStateCounter - HALL_M1.HallStateHomePosition;
+	for(int i = 0; i<=diff;){
+//			 HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t DO COunter: %u\r\n", HALL_M1.HallStateCounter), 100);
+//			 HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t DO hallPosition: %u\r\n", HALL_M1.HallState), 100);
+			 //HAL_Delay(1000);
+//while(HALL_M1.HallStateCounter != HALL_M1.HallCounterHomePosition){
+	if( HALL_M1.HallStateCounter != HALL_M1.HallCounterHomePosition && moveMotor) //Default Position 0
+	  	  {
+			 HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t MOVING COunter: %u\r\n", HALL_M1.HallStateCounter), 100);
+			 HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\t MOVING hallposition: %u\r\n", HALL_M1.HallState), 100);
+			// HAL_Delay(1000);
 	  		  if(stepA && pendingPhase)
 	  		  {
 	  //			  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "in phase control\n"), 100);
@@ -280,6 +403,7 @@ void OSC_MODE_HOME(){
 	  			  stepAB=1;
 	  			  pendingPhase = 0;
 	  			  execute++;
+	  			  i++;
 	  		  }
 	  		  if(stepAB && pendingPhase)
 	  		  {
@@ -347,25 +471,25 @@ void OSC_MODE_HOME(){
 
 	  	  }
 
-	  	  presenthallstate = (uint16_t *) HALL_M1.HallState;
+	  	 // presenthallstate = (uint16_t *) HALL_M1.HallState;
 
-		  if( HALL_M1.HallState == 71 && (oldhallstate != presenthallstate))
+		  if( HALL_M1.HallState == 71 && (HALL_M1.HallStateHomePosition != HALL_M1.HallState))
 					  {
-						  if( oldhallstate < presenthallstate)
+						  if( HALL_M1.HallStateHomePosition < HALL_M1.HallState)
 						  {
-							  HALL_M1.HallStateCounter = HALL_M1.HallStateCounter-oldhallstate+1;
+							  HALL_M1.HallStateCounter = HALL_M1.HallStateCounter-HALL_M1.HallState+1;
 							 // execute = execute - oldhallstate;
 						  }
 						  else
 						  {
-							  HALL_M1.HallStateCounter = HALL_M1.HallStateCounter-presenthallstate-1;
+							  HALL_M1.HallStateCounter = HALL_M1.HallStateCounter-HALL_M1.HallState-1;
 							 // execute = execute - presenthallstate;
 						  }
 
 						 count =0;
 						 execute=0;
 					  }
-		  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\n at pole: %u\r\n", HALL_M1.HallStateCounter), 75);
+//		  HAL_UART_Transmit(&huart1, (uint8_t*)buffer, sprintf(buffer, "\n at pole: %u\r\n", HALL_M1.HallStateCounter), 75);
 
 		  execute = execute%7;
 		 // HAL_Delay(10);
@@ -376,8 +500,15 @@ void OSC_MODE_HOME(){
 			  waitToMoveCounter=0;
 		  }
 }
+}//while(HALL_M1.HallStateCounter != 0);
+//}
 /*-- My code ends --*/
 
+
+void Home_Offset(){
+	HALL_M1.HallCounterHomePosition = HALL_M1.HallStateCounter;
+	HALL_M1.HallStateHomePosition = HALL_M1.HallState;
+}
 /**
   * @brief System Clock Configuration
   * @retval None

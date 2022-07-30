@@ -1,4 +1,6 @@
-C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:269:6:OSC_MODE_HOME	24	static
-C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:385:6:SystemClock_Config	96	static,ignoring_inline_asm
-C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:87:5:main	112	static,ignoring_inline_asm
-C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:814:6:Error_Handler	0	static,ignoring_inline_asm
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:267:6:OSC_MODE_HOME2	24	static
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:380:6:OSC_MODE_HOME	32	static
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:508:6:Home_Offset	0	static
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:516:6:SystemClock_Config	96	static,ignoring_inline_asm
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:89:5:main	112	static,ignoring_inline_asm
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/main.c:945:6:Error_Handler	0	static,ignoring_inline_asm

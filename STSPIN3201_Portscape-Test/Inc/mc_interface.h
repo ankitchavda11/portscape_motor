@@ -78,6 +78,7 @@ typedef struct
   MCI_CommandState_t CommandState; /*!< The status of the buffered command.*/
   STC_Modality_t LastModalitySetByUser; /*!< The last STC_Modality_t set by the
                                              user. */
+  bool test;
 } MCI_Handle_t;
 
 /* Exported functions ------------------------------------------------------- */
@@ -122,6 +123,8 @@ int16_t MCI_GetPhaseCurrentAmplitude( MCI_Handle_t * pHandle );
 int16_t MCI_GetPhaseVoltageAmplitude( MCI_Handle_t * pHandle );
 void MCI_SetIdref( MCI_Handle_t * pHandle, int16_t hNewIdref );
 void MCI_Clear_Iqdref( MCI_Handle_t * pHandle );
+void MCI_Home_Osc();
+void MCI_Home_Offset();
 
 /**
   * @}

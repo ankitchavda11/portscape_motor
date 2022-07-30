@@ -273,7 +273,8 @@ typedef enum
 #define MC_PROTOCOL_CMD_SC_STOP           0x0E
 /*-- My code --*/
 #define MC_PROTOCOL_CMD_OSC_HOME		  0x0F
-
+#define MC_PROTOCOL_CMD_HOME_OFFSET       0x10
+/*-- My code ends --*/
 #define CTRBDID 10010
 #define PWBDID 10010
 #define MC_UID 883328122
@@ -361,7 +362,7 @@ struct UI_Handle
   uint32_t* pUICfg;       /*!< Pointer of UI configuration list.*/
   uint8_t bSelectedDrive; /*!< Current selected MC object in the list.*/
 /*-- My code --*/
-  bool test;
+  bool test1;
 /*-- My code ends --*/
 };
 

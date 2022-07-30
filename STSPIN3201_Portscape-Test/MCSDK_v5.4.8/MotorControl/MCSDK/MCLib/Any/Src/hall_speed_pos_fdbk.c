@@ -94,6 +94,7 @@ __weak void HALL_Init( HALL_Handle_t * pHandle )
   uint8_t bSpeedBufferSize;
   uint8_t bIndex;
 
+
   /* Adjustment factor: minimum measurable speed is x time less than the minimum
   reliable speed */
   hMinReliableElSpeedUnit /= 4u;
@@ -173,6 +174,9 @@ __weak void HALL_Init( HALL_Handle_t * pHandle )
   {
     pHandle->SensorPeriod[bIndex]  = pHandle->MaxPeriod;
   }
+
+  pHandle->HallCounterHomePosition = pHandle->HallStateCounter;
+  pHandle->HallStateHomePosition = pHandle->HallState;
 }
 
 /**
@@ -216,6 +220,9 @@ __weak void HALL_Clear( HALL_Handle_t * pHandle )
   /* Clear speed error counter */
   pHandle->_Super.bSpeedErrorNumber = 0;
   
+  pHandle->HallCounterHomePosition = 0;
+  pHandle->HallStateHomePosition = 0;
+
   /* Re-initialize partly the timer */
   LL_TIM_SetPrescaler ( TIMx, pHandle->HALLMaxRatio );
 

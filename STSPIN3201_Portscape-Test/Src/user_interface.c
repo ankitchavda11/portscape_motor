@@ -65,6 +65,7 @@ __weak void UI_Init(UI_Handle_t *pHandle, uint8_t bMCNum, MCI_Handle_t ** pMCI, 
   pHandle->pMCT = pMCT;
   pHandle->bSelectedDrive = 0u;
   pHandle->pUICfg = pUICfg;
+  pHandle->test1=0;
 }
 
 /**
@@ -710,19 +711,15 @@ __weak bool UI_ExecCmd(UI_Handle_t *pHandle, uint8_t bCmdID)
     /*-- My code --*/
   case MC_PROTOCOL_CMD_OSC_HOME:
     {
-    	if (MCI_GetSTMState(pMCI) == IDLE)
-    	      {
-    	        MCI_StartMotor(pMCI);
-    	        pHandle->test = 0;
-    	      }
-    	      else
-    	      {
-    	        MCI_StopMotor(pMCI);
-    	        pHandle->test = 1;
-    	      }
+   	MCI_Home_Osc();
     }
     break;
     /*-- My code ends --*/
+  case MC_PROTOCOL_CMD_HOME_OFFSET:
+    {
+    	MCI_Home_Offset();
+   }
+   break;
   default:
     {
     retVal = false;
