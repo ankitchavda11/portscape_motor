@@ -123,8 +123,12 @@ int16_t MCI_GetPhaseCurrentAmplitude( MCI_Handle_t * pHandle );
 int16_t MCI_GetPhaseVoltageAmplitude( MCI_Handle_t * pHandle );
 void MCI_SetIdref( MCI_Handle_t * pHandle, int16_t hNewIdref );
 void MCI_Clear_Iqdref( MCI_Handle_t * pHandle );
-void MCI_Home_Osc();
+
+/*-- My code --*/
+void MCI_Home_Osc(MCI_Handle_t * pHandle);
 void MCI_Home_Offset();
+void MCI_Home_Null();
+/*-- My code ends --*/
 
 /**
   * @}

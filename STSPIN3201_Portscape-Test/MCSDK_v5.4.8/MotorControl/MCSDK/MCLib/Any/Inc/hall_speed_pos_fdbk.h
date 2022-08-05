@@ -155,6 +155,7 @@ typedef struct
                                in s16degree per current control period.*/
 
   uint8_t HallState;     /*!< Current HALL state configuration */
+
   /*--My Code --*/
   uint8_t HallStateCounter;   /* Hall state counter*/
   uint8_t HallCounterHomePosition;

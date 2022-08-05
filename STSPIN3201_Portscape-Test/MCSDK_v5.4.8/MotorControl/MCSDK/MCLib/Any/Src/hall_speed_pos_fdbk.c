@@ -175,8 +175,10 @@ __weak void HALL_Init( HALL_Handle_t * pHandle )
     pHandle->SensorPeriod[bIndex]  = pHandle->MaxPeriod;
   }
 
+  /*--My code --*/
   pHandle->HallCounterHomePosition = pHandle->HallStateCounter;
   pHandle->HallStateHomePosition = pHandle->HallState;
+  /*-- My code ends --*/
 }
 
 /**
@@ -220,8 +222,10 @@ __weak void HALL_Clear( HALL_Handle_t * pHandle )
   /* Clear speed error counter */
   pHandle->_Super.bSpeedErrorNumber = 0;
   
+  /*-- My code --*/
   pHandle->HallCounterHomePosition = 0;
-  pHandle->HallStateHomePosition = 0;
+  pHandle->HallStateHomePosition = 1;
+  /*-- My code ends --*/
 
   /* Re-initialize partly the timer */
   LL_TIM_SetPrescaler ( TIMx, pHandle->HALLMaxRatio );
@@ -375,19 +379,12 @@ __weak void * HALL_TIMx_CC_IRQHandler( void * pHandleVoid )
   uint32_t wCaptBuf;
   uint16_t hPrscBuf;
   uint16_t hHighSpeedCapture;
-  /*--My Code --*/
-  uint8_t bPRevHallStateCounter;   /* Hall state counter*/
-  uint8_t bPRevRefHallState;
-  /*--My Code Ends--*/
 
   if ( pHandle->SensorIsReliable )
   {
     /* A capture event generated this interrupt */
     bPrevHallState = pHandle->HallState;
     PrevDirection = pHandle->Direction;
-    /*--My Code --*/
-    bPRevRefHallState = pHandle->HallState;
-    /*--My Code Ends--*/
 
     if ( pHandle->SensorPlacement == DEGREES_120 )
     {

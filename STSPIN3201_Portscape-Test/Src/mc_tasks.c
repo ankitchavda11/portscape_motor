@@ -104,8 +104,17 @@ void TSK_SetStopPermanencyTimeM1(uint16_t hTickCount);
 bool TSK_StopPermanencyTimeHasElapsedM1(void);
 void TSK_SafetyTask_PWMOFF(uint8_t motor);
 void UI_Scheduler(void);
+/*-- My code --*/
+void Enable_BacktoHome(uint8_t bMotor);
+/*-- My code ends --*/
 
 /* USER CODE BEGIN Private Functions */
+
+/*-- My code --*/
+void Enable_BacktoHome(uint8_t bMotor){
+	R3_1_TurnOnLowSides( pwmcHandle[M1] );
+}
+/*-- My code ends --*/
 
 /* USER CODE END Private Functions */
 /**
@@ -119,6 +128,7 @@ void UI_Scheduler(void);
   *         number of motor drives.
   * @retval None
   */
+
 __weak void MCboot( MCI_Handle_t* pMCIList[NBR_OF_MOTORS],MCT_Handle_t* pMCTList[NBR_OF_MOTORS] )
 {
   /* USER CODE BEGIN MCboot 0 */

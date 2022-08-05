@@ -274,6 +274,7 @@ typedef enum
 /*-- My code --*/
 #define MC_PROTOCOL_CMD_OSC_HOME		  0x0F
 #define MC_PROTOCOL_CMD_HOME_OFFSET       0x10
+#define MC_PROTOCOL_CMD_HOME_NULL         0x11
 /*-- My code ends --*/
 #define CTRBDID 10010
 #define PWBDID 10010
@@ -361,9 +362,6 @@ struct UI_Handle
   MCT_Handle_t** pMCT;             /*!< Pointer of MC tuning list.*/
   uint32_t* pUICfg;       /*!< Pointer of UI configuration list.*/
   uint8_t bSelectedDrive; /*!< Current selected MC object in the list.*/
-/*-- My code --*/
-  bool test1;
-/*-- My code ends --*/
 };
 
 /**

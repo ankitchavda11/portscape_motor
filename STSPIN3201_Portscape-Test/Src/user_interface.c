@@ -65,7 +65,6 @@ __weak void UI_Init(UI_Handle_t *pHandle, uint8_t bMCNum, MCI_Handle_t ** pMCI, 
   pHandle->pMCT = pMCT;
   pHandle->bSelectedDrive = 0u;
   pHandle->pUICfg = pUICfg;
-  pHandle->test1=0;
 }
 
 /**
@@ -711,15 +710,22 @@ __weak bool UI_ExecCmd(UI_Handle_t *pHandle, uint8_t bCmdID)
     /*-- My code --*/
   case MC_PROTOCOL_CMD_OSC_HOME:
     {
-   	MCI_Home_Osc();
+    	MCI_Home_Osc(pMCI);
     }
     break;
     /*-- My code ends --*/
+    /*-- My code --*/
   case MC_PROTOCOL_CMD_HOME_OFFSET:
     {
     	MCI_Home_Offset();
    }
    break;
+  case MC_PROTOCOL_CMD_HOME_NULL:
+    {
+    	MCI_Home_Null();
+    }
+    break;
+   /*-- My code ends --*/
   default:
     {
     retVal = false;

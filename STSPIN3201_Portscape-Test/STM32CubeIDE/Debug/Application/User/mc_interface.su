@@ -34,4 +34,5 @@ C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:621:16:MC
 C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:650:13:MCI_SetIdref	0	static
 C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:661:13:MCI_Clear_Iqdref	8	static
 C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:667:6:MCI_Home_Osc	8	static
-C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:671:6:MCI_Home_Offset	8	static
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:675:6:MCI_Home_Offset	8	static
+C:/Users/UL/Desktop/Ankit/STSPIN3201_Portscape-Test/Src/mc_interface.c:681:6:MCI_Home_Null	8	static
